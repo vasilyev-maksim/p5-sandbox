@@ -1,3 +1,9 @@
+let mode = true;
+
+function mouseClicked() {
+  mode = !mode;
+}
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
 }
@@ -8,8 +14,6 @@ function draw() {
   const S = 20;
 
   background(255);
-  // stroke("red");
-  // strokeWeight(0);
 
   grid2D({
     minX: 0,
@@ -20,11 +24,13 @@ function draw() {
     stepY: S,
     callback: (x, y) => {
       const d = dist(x, y, mouseX, mouseY);
+      const fr = 120;
       const maxSide = max(W, H);
-      const opacity = (d / maxSide) ** 0.65 * 255;
-      // stroke(255, 0, 0, opacity);
+      const r = d / maxSide;
+      const opacity = r ** 0.5 * 255;
+
       fill(0, opacity);
-      circle(x, y, S * 2);
+      circle(x, y, S * 2 * (mode && d < fr ? (d / fr) ** 2.5 : 1));
     },
   });
 }
