@@ -12,48 +12,60 @@ function mouseClicked() {
 }
 
 function draw() {
-  delta = (delta + 0.01) % 2;
-  const radiusDelta = Math.abs(1 - delta);
+  delta += 0.009;
+  //  (D * (2 - radiusDelta ** 2)) / 2
   const D = windowWidth / N;
   const R = D / 2;
+  const radius = (2 - (sin(delta) + 1) / 2) * R;
 
-  background(darkMode ? 0 : 255);
+  background(darkMode ? 0 : 255, 255);
   stroke(!darkMode ? 0 : 255);
   fill(0, 0, 0, 0);
-  // translate(-R / 2, -R / 2);
+  translate(-(sqrt(3) * R) / 4, -R / 4);
 
-  function drawCircle(coords) {
+  function drawCircle(x, y) {
     const r = Math.floor(
-      ((Math.abs(coords[0] - mouseX) % windowWidth) / windowWidth) * 255
+      ((Math.abs(x - mouseX) % windowWidth) / windowWidth) * 255
     );
     const g = Math.floor(
-      ((Math.abs(coords[1] - mouseY) % windowHeight) / windowHeight) * 255
+      ((Math.abs(y - mouseY) % windowHeight) / windowHeight) * 255
     );
     const b = Math.floor(255 - (r + g) / 2);
     fill(r, g, b, 100);
-    circle(coords[0], coords[1], D * radiusDelta);
+    circle(x, y, radius);
   }
 
   function drawFlowerOfLife() {
-    getGrid({
+    grid2D({
       minX: 0,
       maxX: windowWidth,
       minY: 0,
       maxY: windowHeight,
       stepX: sqrt(3) * R,
       stepY: R,
-    }).forEach(drawCircle);
+      callback: drawCircle,
+    });
 
-    getGrid({
+    grid2D({
       minX: 0,
       maxX: windowWidth,
       minY: 0,
       maxY: windowHeight,
       stepX: sqrt(3) * R,
       stepY: R,
-      shiftY: R / 2,
-      shiftX: (sqrt(3) * R) / 2,
-    }).forEach(drawCircle);
+      callback: (x, y) => drawCircle(x + (sqrt(3) * R) / 2, y + R / 2),
+    });
+
+    // getGrid({
+    //   minX: 0,
+    //   maxX: windowWidth,
+    //   minY: 0,
+    //   maxY: windowHeight,
+    //   stepX: sqrt(3) * R,
+    //   stepY: R,
+    //   shiftY: R / 2,
+    //   shiftX: (sqrt(3) * R) / 2,
+    // }).forEach(drawCircle);
   }
 
   drawFlowerOfLife();
@@ -66,17 +78,6 @@ function getGrid(args) {
     for (let dy = 0; dy - stepY <= maxY; dy += stepY) {
       grid.push([minX + dx + shiftX, minY + dy + shiftY]);
     }
-  }
-  return grid;
-}
-
-function getRadialGrid(x, y, r, steps, shift = 0) {
-  const grid = [];
-  for (let i = 0; i < steps; i += 1) {
-    grid.push([
-      x + r * cos((Math.PI * 2 * i) / steps + shift),
-      y + r * sin((Math.PI * 2 * i) / steps + shift),
-    ]);
   }
   return grid;
 }
