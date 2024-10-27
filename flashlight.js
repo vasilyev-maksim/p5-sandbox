@@ -20,9 +20,8 @@ function draw() {
     maxX: W,
     minY: 0,
     maxY: H,
-    stepX: S,
-    stepY: S,
-    callback: (x, y) => {
+    xStepCount: 75,
+    callback: ({ x, y }) => {
       const d = dist(x, y, mouseX, mouseY);
       const fr = 120;
       const maxSide = max(W, H);
