@@ -10,19 +10,6 @@ function grid2D(args) {
     yStepLength,
     callback,
   } = args;
-  // let stepX;
-  // let stepY;
-
-  // if (args.stepX || stepsCountX) {
-  //   stepX = args.stepX ?? (maxX - minX) / stepsCountX;
-  // }
-
-  // if (args.stepY || stepsCountY) {
-  //   stepY = args.stepY ?? (maxY - minY) / stepsCountY;
-  // }
-
-  // stepX = stepX ?? stepY;
-  // stepY = stepY ?? stepX;
 
   if (xStepLength != null || xStepCount != null) {
     grid1D({
@@ -36,13 +23,6 @@ function grid2D(args) {
         stepCount: _xStepCount,
         stepLength: _xStepLength,
       }) => {
-        // console.log({ x, xIndex, _xStepCount, _xStepLength });
-        // console.log({
-        //   min: minY,
-        //   max: maxY,
-        //   stepLength: yStepLength ?? _xStepLength,
-        //   stepCount: yStepCount,
-        // });
 
         grid1D({
           min: minY,
@@ -55,7 +35,6 @@ function grid2D(args) {
             stepCount: _yStepCount,
             stepLength: _yStepLength,
           }) => {
-            // console.log({ y, yIndex, _yStepCount, _yStepLength });
             callback({
               x,
               y,
