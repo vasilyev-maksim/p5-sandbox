@@ -1,6 +1,7 @@
 let MAX_DEPTH = 11;
-const SPEED = 25;
+const SPEED = parseInt(getQsParam("s")) || 20;
 const TRACK_MOUSE = getQsParam("m") === "t";
+const shapesToRender = getQsParam("r") || "rt";
 
 let tiles = [];
 let currentStep = 0;
@@ -75,33 +76,33 @@ function draw() {
         y <= mouseY &&
         mouseY <= y + h
       ) {
-        if (getQsParam("s").includes("t")) {
+        if (shapesToRender.includes("t")) {
           triangle(x + w / 2, y, x + w, y + h, x, y + h);
         }
 
-        if (getQsParam("s").includes("e")) {
+        if (shapesToRender.includes("e")) {
           ellipse(x + w / 2, y + h / 2, w, h);
         }
 
-        if (getQsParam("s").includes("r")) {
+        if (shapesToRender.includes("r")) {
           rect(x, y, w, h);
         }
 
-        // if (getQsParam("s").includes("v")) {
+        // if (shapesToRender.includes("v")) {
         //   vertex(x + w / 2, y + h / 2);
         // }
       }
     } else {
       if (currentStep >= i) {
-        if (getQsParam("s").includes("r")) {
+        if (shapesToRender.includes("r")) {
           rect(x, y, w, h);
         }
 
-        if (getQsParam("s").includes("t")) {
+        if (shapesToRender.includes("t")) {
           triangle(x + w / 2, y, x + w, y + h, x, y + h);
         }
 
-        if (getQsParam("s").includes("e")) {
+        if (shapesToRender.includes("e")) {
           ellipse(x + w / 2, y + h / 2, w, h);
         }
       }
